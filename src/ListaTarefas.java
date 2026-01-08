@@ -5,7 +5,7 @@ public class ListaTarefas {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        Lista lista = Lista.getInstancia();
+        Lista lista = new Lista();
         int opcao;
 
         do {
