@@ -5,7 +5,7 @@ public class Tarefa {
     private Status status;
 
     public Tarefa(String nome, String descricao) {
-        this.nome = nome;
+        this.nome = nome.toUpperCase();
         this.descricao = descricao;
         this.status = Status.DISPONIVEL;
     }

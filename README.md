@@ -32,7 +32,7 @@ Exibe todas as tarefas cadastradas, mostrando:
 - Status
 
 ### 3. Remover Tarefa
-O usuário seleciona uma tarefa pelo índice para removê-la da lista.
+O usuário seleciona uma tarefa pelo índice para removê-la da listaTarefas.
 
 ### 4. Alterar Status da Tarefa
 O usuário escolhe uma tarefa e define um novo status:
@@ -45,7 +45,7 @@ O usuário escolhe uma tarefa e define um novo status:
 ## Padrões de Projeto Utilizados
 
 ### 🔹 Singleton
-**Classe:** `Lista`
+**Classe:** `ListaTarefas`
 
 **Objetivo:**  
 Garantir que exista apenas uma única instância da lista de tarefas durante toda a execução do programa.
@@ -71,7 +71,7 @@ Encapsular a lógica de alteração do status das tarefas, permitindo maleabilid
 
 **Funcionamento:**  
 Cada status possui uma estratégia própria que implementa a interface `AlterarStatusStrategy`.  
-A classe `Lista` utiliza a estratégia escolhida para alterar o status da tarefa.
+A classe `ListaTarefas` utiliza a estratégia escolhida para alterar o status da tarefa.
 
 ---
 
@@ -79,7 +79,7 @@ A classe `Lista` utiliza a estratégia escolhida para alterar o status da tarefa
 
 - `Status`: enum com os estados da tarefa
 - `Tarefa`: representa uma tarefa
-- `Lista`: gerencia as tarefas (Singleton)
+- `ListaTarefas`: gerencia as tarefas (Singleton)
 - `AlterarStatusStrategy`: interface do padrão Strategy
 - Classes de status: estratégias concretas
 - `ListaTarefas`: classe principal com menu interativo
@@ -91,5 +91,5 @@ A classe `Lista` utiliza a estratégia escolhida para alterar o status da tarefa
  ├── StatusDisponivel.java
  ├── StatusFazendo.java
  ├── StatusFeita.java
- ├── Lista.java
- └── ListaTarefas.java
+ ├── ListaTarefas.java
+ └── Main.java

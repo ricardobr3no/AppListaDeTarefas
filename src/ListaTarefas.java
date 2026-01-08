@@ -1,84 +1,56 @@
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ListaTarefas {
 
-    public static void main(String[] args) {
+    private static ListaTarefas instancia;
+    private List<Tarefa> tarefas;
 
-        Scanner scanner = new Scanner(System.in);
-        Lista lista = Lista.getInstancia();
-        int opcao;
+    private ListaTarefas() {
+        tarefas = new ArrayList<Tarefa>();
+    }
 
-        do {
-            System.out.println("\n==== MENU ====");
-            System.out.println("1 - Adicionar tarefa");
-            System.out.println("2 - Listar tarefas");
-            System.out.println("3 - Remover tarefa");
-            System.out.println("4 - Alterar status da tarefa");
-            System.out.println("0 - Sair");
-            System.out.print("Escolha uma opção: ");
+    public static ListaTarefas getInstancia() {
+        if (instancia == null) {
+            instancia = new ListaTarefas();
+        }
+        return instancia;
+    }
 
-            opcao = scanner.nextInt();
-            scanner.nextLine(); // limpa buffer
+    public void adicionarTarefa(Tarefa tarefa) {
+        tarefas.add(tarefa);
+    }
 
-            switch (opcao) {
+    public void removerTarefa(int index) {
+        if (index >= 0 && index < tarefas.size()) {
+            tarefas.remove(index);
+        } else {
+            System.out.println("Índice inválido!");
+        }
+    }
 
-                case 1:
-                    System.out.print("Nome da tarefa: ");
-                    String nome = scanner.nextLine();
+    public void alterarStatus(int index, AlterarStatusStrategy strategy) {
+        if (index >= 0 && index < tarefas.size()) {
+            strategy.alterarStatus(tarefas.get(index));
+        } else {
+            System.out.println("Índice inválido!");
+        }
+    }
 
-                    System.out.print("Descrição da tarefa: ");
-                    String descricao = scanner.nextLine();
+    public void listarTarefas() {
+        if (tarefas.isEmpty()) {
+            System.out.println("Nenhuma tarefa cadastrada.");
+            return;
+        }
 
-                    lista.adicionarTarefa(new Tarefa(nome, descricao));
-                    System.out.println("Tarefa adicionada com sucesso!");
-                    break;
+        System.out.println("============================================================================");
+        System.out.printf(" %-5s | %-20s | %-30s | %-15s \n", "INDEX", "NOME", "DESCRIÇÃO", "STATUS");
+        System.out.println("============================================================================");
 
-                case 2:
-                    lista.listarTarefas();
-                    break;
-
-                case 3:
-                    lista.listarTarefas();
-                    System.out.print("Informe o índice da tarefa a remover: ");
-                    int idxRemover = scanner.nextInt();
-                    lista.removerTarefa(idxRemover);
-                    break;
-
-                case 4:
-                    lista.listarTarefas();
-                    System.out.print("Informe o índice da tarefa: ");
-                    int idx = scanner.nextInt();
-
-                    System.out.println("Novo status:");
-                    System.out.println("1 - DISPONIVEL");
-                    System.out.println("2 - FAZENDO");
-                    System.out.println("3 - FEITA");
-
-                    int statusOpcao = scanner.nextInt();
-                    AlterarStatusStrategy strategy = null;
-
-                    if (statusOpcao == 1) strategy = new StatusDisponivel();
-                    else if (statusOpcao == 2) strategy = new StatusFazendo();
-                    else if (statusOpcao == 3) strategy = new StatusFeita();
-                    else {
-                        System.out.println("Status inválido!");
-                        break;
-                    }
-
-                    lista.alterarStatus(idx, strategy);
-                    System.out.println("Status atualizado!");
-                    break;
-
-                case 0:
-                    System.out.println("Encerrando o programa...");
-                    break;
-
-                default:
-                    System.out.println("Opção inválida!");
-            }
-
-        } while (opcao != 0);
-
-        scanner.close();
+        for (int idx = 0; idx < tarefas.size(); idx++) {
+            Tarefa t = tarefas.get(idx);
+            System.out.printf(" %-5d | %-20s | %-30s | %-15s \n", idx, t.getNome(), t.getDescricao(), t.getStatus());
+        }
+        System.out.println("============================================================================");
     }
 }
